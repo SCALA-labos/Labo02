@@ -28,5 +28,17 @@ object Dictionary {
     "assoiffée" -> "assoiffe",
     "affamé" -> "affame",
     "affamée" -> "affame",
+    "savoir" -> "savoir",
+    "connaitre" -> "savoir",
+    "prix" -> "prix",
+    "coutent" -> "prix",
+    "coute" -> "prix",
+    "solde" -> "solde",
+    "credit" -> "solde",
+    "que" -> "que",
+    "quel" -> "que",
+    "quelle" -> "que",
+    "qu" -> "que",
+    "combien" -> "combien"
   )
 }

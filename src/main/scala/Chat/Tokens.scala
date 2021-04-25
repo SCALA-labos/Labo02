@@ -24,4 +24,13 @@ object Tokens {
   // State of mind
   val ASSOIFFE : Token   = 12
   val AFFAME : Token     = 13
+
+  // Info
+  val SAVOIR : Token = 14
+  // Monetary
+  val PRIX : Token = 15
+  val SOLDE : Token = 16
+  // Interrogation
+  val QUESTION : Token = 17
+
 }
