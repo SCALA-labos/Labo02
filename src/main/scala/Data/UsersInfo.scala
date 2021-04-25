@@ -13,7 +13,7 @@ object UsersInfo {
 
   def addAccount(name : String, balance : Double = 30.0) = {// FIXME : When and how should we actually call this ?
     if(accounts.exists(e => e._1 == name)) {
-      throw InvalidParameterException//Account already exists
+      throw new IllegalArgumentException//Account already exists
     } else {
       (name, balance) +: accounts
     }
@@ -27,7 +27,7 @@ object UsersInfo {
     */
   // TODO: step 2
   def purchase(user: String, amount: Double): Double = {
-    var balance = accounts.find(e => e._1 == user).getOrElse(throw InvalidParameterException)._2
+    var balance = accounts.find(e => e._1 == user).getOrElse(throw new IllegalArgumentException)._2
     balance -= amount
     balance
   }
