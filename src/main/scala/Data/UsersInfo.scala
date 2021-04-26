@@ -1,8 +1,5 @@
 package Data
 
-import java.security.InvalidParameterException
-import scala.collection.mutable
-
 object UsersInfo {
 
   // Will contain the name of the currently active user; default value is null.
@@ -11,12 +8,11 @@ object UsersInfo {
   // TODO: step 2 - create an attribute that will contain each user and its current balance.
   private var accounts: List[(String, Double)] = List()
 
-  def addAccount(name : String, balance : Double = 30.0) = {// FIXME : When and how should we actually call this ?
-    if(accounts.exists(e => e._1 == name)) {
-      throw new IllegalArgumentException//Account already exists
-    } else {
-      (name, balance) +: accounts
+  def login(name : String, balance : Double = 30.0) = {// FIXME : When and how should we actually call this ?
+    if(!accounts.exists(e => e._1 == name)) {
+      accounts = accounts :+ (name, balance)
     }
+    _activeUser = name
   }
 
   /**
