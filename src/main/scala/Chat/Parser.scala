@@ -49,8 +49,19 @@ class Parser(tokenizer: Tokenizer) {
 
   def parsePhrases() : ExprTree = {
     if (curToken == BONJOUR) readToken()
-    parseLogin()
+    //parseLogin()
     //parseBalance()
+    parseStateOfMind()
+  }
+
+  def parseStateOfMind() : ExprTree = {
+    eat(JE)
+    eat(ETRE)
+    curToken match {
+      case AFFAME => Hungry()
+      case ASSOIFFE => Thirsty()
+      case _ => expected(AFFAME, ASSOIFFE)
+    }
   }
 
   def parseLogin(): ExprTree = {
