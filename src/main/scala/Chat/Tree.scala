@@ -1,5 +1,7 @@
 package Chat
 
+import Data.Products.ProductType
+
 // TODO - step 3
 object Tree {
 
@@ -24,7 +26,11 @@ object Tree {
       case Thirsty() => "Eh bien, la chance est de votre côté, car nous offrons les meilleures bières de la région !"
       case Hungry() => "Pas de soucis, nous pouvons notamment vous offrir des croissants faits maisons !"
       //Added
-      case Login(name) => " Bonjour " + name.tail + " !"
+      case Login(name) => "Bonjour " + name.tail + " !"
+        //TODO auth, price
+      case Order(n, product) => "Voici donc %d %s %s! Cela coûte CHF %.1f et votre nouveau solde est de CHF %f.".format(n, product.productType, product.brand ,0f ,0f)
+      case Info(order) => "Cela coûte CHF %.1f".format(0f)
+      case Balance() => "Le montant actuel de votre solde est de CHF %.1f".format(0f)
     }
   }
 
@@ -36,8 +42,10 @@ object Tree {
   case class Hungry() extends ExprTree
   // Added
   case class Login(name: String) extends ExprTree
-  case class Order() extends ExprTree
+  case class Order(n: Int, product: Product) extends ExprTree
   case class And() extends ExprTree
   case class Or() extends ExprTree
-  case class Product() extends ExprTree
+  case class Product(productType : ProductType, brand : String) extends ExprTree
+  case class Info(order: Order) extends ExprTree
+  case class Balance() extends ExprTree
 }
