@@ -20,6 +20,9 @@ object Tree {
         case BEER => n * getDrink(product.brand).get._2                  //TODO getorElse?
         case CROISSANT => n * getCroissant(product.brand).get._2
       }
+      case And(orderL, orderR) => orderL.computePrice + orderR.computePrice
+      case Or(orderL, orderR) => math.min(orderL.computePrice, orderR.computePrice)
+      case _ => 0.0
     }
 
     /**
@@ -48,9 +51,9 @@ object Tree {
   // Added
   case class Login(name: String) extends ExprTree
   case class Order(n: Int, product: Product) extends ExprTree
-  case class And() extends ExprTree
-  case class Or() extends ExprTree
+  case class And(orderL: Order, orderR: Order) extends ExprTree
+  case class Or(orderL: Order, orderR: Order) extends ExprTree
   case class Product(productType : ProductType, brand : String) extends ExprTree
-  case class Info(order: Order) extends ExprTree
+  case class Info(complex_order: ExprTree) extends ExprTree
   case class Balance() extends ExprTree
 }
