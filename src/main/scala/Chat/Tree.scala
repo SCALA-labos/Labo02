@@ -47,10 +47,20 @@ object Tree {
       }
       case Info(order) => "Cela coûte CHF %.1f".format(order.computePrice)
       case ComplexOrder(order) => {
-        val price = order.computePrice
-        "Voici donc %s! Cela coûte CHF %.1f et votre nouveau solde est de CHF %.1f."
-        .format( order.reply, price, UsersInfo.purchase(UsersInfo.getCurrentUsername(), price))}
-      case Balance() => "Le montant actuel de votre solde est de CHF %.1f".format(UsersInfo.getCurrentBalance())
+        val username = UsersInfo.getCurrentUsername()
+        if(UsersInfo.getCurrentUsername() == null) {
+          "Veuillez d'abord vous identifier"
+        } else {
+          val price = order.computePrice
+          "Voici donc %s! Cela coûte CHF %.1f et votre nouveau solde est de CHF %.1f."
+            .format( order.reply, price, UsersInfo.purchase(UsersInfo.getCurrentUsername(), price))}
+        }
+      case Balance() =>
+        if(UsersInfo.getCurrentUsername() == null) {
+          "Veuillez d'abord vous identifier"
+        } else {
+          "Le montant actuel de votre solde est de CHF %.1f".format(UsersInfo.getCurrentBalance())
+        }
       case _ => ""
     }
 
