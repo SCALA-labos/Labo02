@@ -1,6 +1,6 @@
 package Chat
 
-import Data.Products.ProductType
+import Data.Products.{BEER, CROISSANT, ProductType, getCroissant, getDrink}
 
 // TODO - step 3
 object Tree {
@@ -15,7 +15,12 @@ object Tree {
       * For example if we had a "+" node, we would add the values of its two children, then return the result.
       * @return the result of the computation
       */
-    def computePrice: Double = ???
+    def computePrice: Double = this match {
+      case Order(n, product) => product.productType match {
+        case BEER => n * getDrink(product.brand).get._2                  //TODO getorElse?
+        case CROISSANT => n * getCroissant(product.brand).get._2
+      }
+    }
 
     /**
       * Return the output text of the current node, in order to write it in console.
@@ -29,7 +34,7 @@ object Tree {
       case Login(name) => "Bonjour " + name.tail + " !"
         //TODO auth, price
       case Order(n, product) => "Voici donc %d %s %s! Cela coûte CHF %.1f et votre nouveau solde est de CHF %f.".format(n, product.productType, product.brand ,0f ,0f)
-      case Info(order) => "Cela coûte CHF %.1f".format(0f)
+      case Info(order) => "Cela coûte CHF %.1f".format(order.computePrice)
       case Balance() => "Le montant actuel de votre solde est de CHF %.1f".format(0f)
     }
   }
