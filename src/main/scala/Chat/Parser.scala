@@ -101,7 +101,10 @@ class Parser(tokenizer: Tokenizer) {
     readToken()
     val num = curValue.toInt
     eat(NUM)
-    val productType : Token = curToken
+    val productType : Token = curToken match {
+      case CROISSANT => Products.CROISSANT
+      case BIERE => Products.BEER
+    }
     readToken()
     if(curToken == MARQUE) {
       val brand = curValue
