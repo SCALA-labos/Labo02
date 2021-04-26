@@ -21,14 +21,14 @@ object Products {
   )
 
   def contains(name : String): Boolean = {
-    productList.exists(_._1 == name)
+    productList.exists(_._1.toLowerCase() == name.toLowerCase())
   }
 
   def getDrink(name : String = "Boxer"): Option[(String, Double, ProductType)] = {
-    productList.find(t => t._1 == name && t._3 == BEER)
+    productList.find(t => t._1.toLowerCase() == name.toLowerCase() && t._3 == BEER)
   }
 
   def getCroissant(name : String = "Maison"): Option[(String, Double, ProductType)] = {
-    productList.find(t => t._1 == name && t._3 == CROISSANT)
+    productList.find(t => t._1.toLowerCase() == name.toLowerCase() && t._3 == CROISSANT)
   }
 }
