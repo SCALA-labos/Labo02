@@ -39,7 +39,13 @@ object Tree {
       case Login(name) => {
         UsersInfo.login(name.tail)
         "Bonjour %s !".format(UsersInfo.getCurrentUsername())}
-      case Order(n, product) => "%d %s %s".format(n, product.productType, product.brand)
+      case Order(n, product) => {
+        val productName = product.productType match {
+          case Products.CROISSANT => "croissant"
+          case Products.BEER => "bière"
+        }
+        "%d %s %s".format(n, productName, product.brand)
+      }
       case And(orderL, orderR) => "%s et %s".format(orderL.reply, orderR.reply)
       case Or(orderL, orderR) => orderL match {
         case _ if orderL.computePrice <= orderR.computePrice => orderL.reply
