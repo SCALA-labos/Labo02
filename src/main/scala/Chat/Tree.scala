@@ -35,10 +35,14 @@ object Tree {
       case Hungry() => "Pas de soucis, nous pouvons notamment vous offrir des croissants faits maisons !"
       //Added
       case Login(name) => "Bonjour " + name.tail + " !"
-        //TODO auth, price
-      case Order(n, product) => "Voici donc %d %s %s! Cela coûte CHF %.1f et votre nouveau solde est de CHF %f.".format(n, product.productType, product.brand ,0f ,0f)
+        //TODO auth
+      case Order(n, product) => "%d %s %s".format(n, product.productType, product.brand)
+      case And(orderL, orderR) => "%s et %s".format(orderL.reply, orderR.reply)
+      case Or(orderL, orderR) => "%s ou %s".format("TODO", orderR.reply) //TODO
       case Info(order) => "Cela coûte CHF %.1f".format(order.computePrice)
       case Balance() => "Le montant actuel de votre solde est de CHF %.1f".format(0f)
+      case ComplexOrder(order) => "Voici donc %s! Cela coûte CHF %.1f et votre nouveau solde est de CHF %.1f."
+        .format( order.reply, order.computePrice ,0f)
     }
   }
 
@@ -56,4 +60,5 @@ object Tree {
   case class Product(productType : ProductType, brand : String) extends ExprTree
   case class Info(complex_order: ExprTree) extends ExprTree
   case class Balance() extends ExprTree
+  case class ComplexOrder(complexOrder: ExprTree) extends ExprTree
 }
