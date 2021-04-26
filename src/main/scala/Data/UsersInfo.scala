@@ -27,4 +27,12 @@ object UsersInfo {
     balance -= amount
     balance
   }
+
+  def getCurrentBalance(): Double ={
+    accounts.find(e => e._1 == _activeUser).getOrElse(throw new IllegalArgumentException)._2
+  }
+
+  def getCurrentUsername(): String ={
+    _activeUser
+  }
 }
