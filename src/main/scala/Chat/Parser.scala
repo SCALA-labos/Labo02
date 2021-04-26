@@ -49,7 +49,20 @@ class Parser(tokenizer: Tokenizer) {
 
   def parsePhrases() : ExprTree = {
     if (curToken == BONJOUR) readToken()
-    parseBalance()
+    parseLogin()
+    //parseBalance()
+  }
+
+  def parseLogin(): ExprTree = {
+    eat(JE)
+    curToken match {
+      case ETRE => readToken()
+      case ME => eat(APPELER)
+    }
+    if(curToken == PSEUDO){
+      Login(curValue)
+    }else expected(PSEUDO)
+
   }
 
   def parsePolite() {
