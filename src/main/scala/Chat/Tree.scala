@@ -38,7 +38,10 @@ object Tree {
         //TODO auth
       case Order(n, product) => "%d %s %s".format(n, product.productType, product.brand)
       case And(orderL, orderR) => "%s et %s".format(orderL.reply, orderR.reply)
-      case Or(orderL, orderR) => "%s ou %s".format("TODO", orderR.reply) //TODO
+      case Or(orderL, orderR) => orderL match {
+        case _ if orderL.computePrice <= orderR.computePrice => orderL.reply
+        case _ => orderR.reply;
+      }
       case Info(order) => "Cela coûte CHF %.1f".format(order.computePrice)
       case Balance() => "Le montant actuel de votre solde est de CHF %.1f".format(0f)
       case ComplexOrder(order) => "Voici donc %s! Cela coûte CHF %.1f et votre nouveau solde est de CHF %.1f."
