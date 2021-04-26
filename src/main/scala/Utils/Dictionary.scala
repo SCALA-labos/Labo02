@@ -46,5 +46,7 @@ object Dictionary {
     "commander" -> "commander",
     "le" -> "le",
     "de" -> "de",
+    "connaitre" -> "connaitre",
+    "mon" -> "mon",
   )
 }

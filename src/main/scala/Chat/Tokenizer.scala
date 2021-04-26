@@ -30,6 +30,8 @@ class Tokenizer(input: String) {
     case "commander" => COMMANDER
     case "le" => LE
     case "de" => DE
+    case "connaitre" => CONNAITRE
+    case "mon" => MON
       //===
     case p if p.startsWith("_") && p.length > 1 => PSEUDO // If the word starts with '_' and has more than one character it is a pseudonym.
     case n if n.forall(Character.isDigit) => NUM // If every character is a number, the word thus is a number.
