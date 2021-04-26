@@ -33,4 +33,14 @@ object Tokens {
   // Interrogation
   val QUESTION : Token = 17
 
+  // Added
+  val ME : Token = 18
+  val COMBIEN : Token = 19
+  val COMMANDER : Token = 20
+  val LE : Token = 21
+  val DE : Token = 22
+  val CONNAITRE : Token = 23
+  val MON : Token = 24
+  val APPELER : Token = 25
+
 }
