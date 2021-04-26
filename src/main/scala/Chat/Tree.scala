@@ -1,6 +1,7 @@
 package Chat
 
-import Data.Products.{BEER, CROISSANT, ProductType, getCroissant, getDrink}
+import Chat.Tokens.{BIERE, CROISSANT, Token}
+import Data.Products.{getCroissant, getDrink}
 import Data.UsersInfo
 
 // TODO - step 3
@@ -18,7 +19,7 @@ object Tree {
       */
     def computePrice: Double = this match {
       case Order(n, product) => product.productType match {
-        case BEER => n * getDrink(product.brand).get._2                  //TODO getorElse?
+        case BIERE => n * getDrink(product.brand).get._2                  //TODO getorElse?
         case CROISSANT => n * getCroissant(product.brand).get._2
       }
       case And(orderL, orderR) => orderL.computePrice + orderR.computePrice
@@ -50,6 +51,7 @@ object Tree {
         "Voici donc %s! Cela coûte CHF %.1f et votre nouveau solde est de CHF %.1f."
         .format( order.reply, price, UsersInfo.purchase(UsersInfo.getCurrentUsername(), price))}
       case Balance() => "Le montant actuel de votre solde est de CHF %.1f".format(UsersInfo.getCurrentBalance())
+      case _ => ""
     }
 
   }
@@ -62,7 +64,7 @@ object Tree {
   case class Hungry() extends ExprTree
   // Added
   case class Login(name: String) extends ExprTree
-  case class Product(productType : ProductType, brand : String = "") extends ExprTree
+  case class Product(productType : Token, brand : String = "") extends ExprTree
   case class Order(n: Int, product: Product) extends ExprTree
   case class And(orderL: Order, orderR: ExprTree) extends ExprTree
   case class Or(orderL: Order, orderR: ExprTree) extends ExprTree

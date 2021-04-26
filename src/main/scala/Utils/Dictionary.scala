@@ -47,6 +47,23 @@ object Dictionary {
     "le" -> "le",
     "de" -> "de",
     "mon" -> "mon",
-    "appelle" -> "appeler"
+    "appelle" -> "appeler",
+
+    "boxers" -> "Boxer",
+    "boxer" -> "Boxer",
+    "farmers" -> "Farmer",
+    "farmer" -> "Farmer",
+    "wittekops" -> "Wittekop",
+    "wittelop" -> "wittekop",
+    "punkipas" -> "PunkIPA",
+    "punkipa" -> "PunkIPA",
+    "jackhammers" -> "Jackhammer",
+    "ténébreuses" -> "Ténébreuse",
+    "ténébreuse" -> "Ténébreuse",
+    "maisons" -> "maison",
+    "maison" -> "maison",
+    "caillers" -> "cailler",
+    "cailler" -> "cailler"
+
   )
 }

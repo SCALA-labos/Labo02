@@ -43,4 +43,6 @@ object Tokens {
   val APPELER : Token = 25
   val COUTER : Token = 26
 
+  val MARQUE : Token = 27
+
 }

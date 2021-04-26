@@ -25,12 +25,12 @@ class Parser(tokenizer: Tokenizer) {
   // TODO (BONUS): find a way to display the string value of the tokens (e.g. "BIERE") instead of their integer value (e.g. 6).
   private def expected(token: Token, more: Token*): Nothing = {
     throw new UnexpectedTokenException("Expected: " +
-      (token :: more.toList).mkString(" or ") +
-      ", found: " + curToken)
+      (token.toString :: more.toList).mkString(" or ") +
+      ", found: " + curToken.toString)
   }
 
   /** the root method of the parser: parses an entry phrase */
-  def parsePhrasesOld() : ExprTree = {
+  def parsePhrases() : ExprTree = {
     if (curToken == BONJOUR) readToken()
     if (curToken == JE) {
       readToken()
@@ -51,28 +51,25 @@ class Parser(tokenizer: Tokenizer) {
         else expected(ASSOIFFE, AFFAME, PSEUDO)
       } else {//Politesse
         parsePolite()
-        readToken()
         if(curToken == COMMANDER) {
           parseComplexOrder()
         } else if (curToken == SAVOIR) {
           parseBalance()
         } else expected(COMMANDER, SAVOIR)
       }
-    } else {
+    } else if (curToken == COMBIEN || curToken == QUE){
       parseOrderInfoRequest()
-    }
-    else expected(JE, COMBIEN, QUE)
+    } else expected(JE, COMBIEN, QUE)
   }
 
-  def parsePhrases() : ExprTree = {
+  /*def parsePhrases() : ExprTree = {
     if (curToken == BONJOUR) readToken()
     //parseLogin()
     //parseBalance()
     parseStateOfMind()
-  }
+  }*/
 
   def parseOrderInfoRequest(): ExprTree = {
-    readToken()
     if (curToken == COMBIEN) {
       readToken()
       eat(COUTER)
@@ -96,7 +93,7 @@ class Parser(tokenizer: Tokenizer) {
     } else if (curToken == OU) {
       Or(leftOrder, parseComplexOrder())
     } else {
-      leftOrder
+      ComplexOrder(leftOrder)
     }
   }
 
@@ -104,10 +101,12 @@ class Parser(tokenizer: Tokenizer) {
     readToken()
     val num = curValue.toInt
     eat(NUM)
-    val productType = curToken
+    val productType : Token = curToken
     readToken()
-    if(curToken != ET && curToken != OU) {
-      Order(num, Product(productType, curValue))
+    if(curToken == MARQUE) {
+      val brand = curValue
+      eat(MARQUE)
+      Order(num, Product(productType, brand))
     }
     else {
       Order(num, Product(productType))
@@ -140,7 +139,6 @@ class Parser(tokenizer: Tokenizer) {
   }
 
   def parsePolite() {
-    readToken()
     eat(VOULOIR)
   }
 

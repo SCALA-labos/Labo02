@@ -1,6 +1,7 @@
 package Chat
 
 import Chat.Tokens._
+import Data.Products
 import Utils.Dictionary.dictionary
 import Utils.SpellChecker._
 
@@ -22,7 +23,6 @@ class Tokenizer(input: String) {
     case "savoir" => SAVOIR
     case "connaitre" => SAVOIR
     case "que" => QUE
-    case "combien" => QUE
     case "prix" => PRIX
     case "couter" => COUTER
     case "solde" => SOLDE
@@ -35,6 +35,7 @@ class Tokenizer(input: String) {
     case "mon" => MON
     case "appeler" => APPELER
       //===
+    case n if Products.contains(n) => MARQUE
     case p if p.startsWith("_") && p.length > 1 => PSEUDO // If the word starts with '_' and has more than one character it is a pseudonym.
     case n if n.forall(Character.isDigit) => NUM // If every character is a number, the word thus is a number.
     case _ => UNKNOWN
@@ -44,7 +45,7 @@ class Tokenizer(input: String) {
     val words = input
       .trim()
       .replaceAll("[.,!?*]", " ") // Remove punctuation.
-      .replaceAll(" +|[']", " ") // Remove multiple spaces and replace apostrophes by a space.
+      .replaceAll(" +|['’]", " ") // Remove multiple spaces and replace apostrophes by a space.
       .split(" ")
       .filterNot(_.isEmpty)
 

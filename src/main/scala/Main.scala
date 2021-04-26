@@ -4,7 +4,7 @@ import Utils.ClinksCalculator._
 import scala.io.StdIn
 
 object Main extends App {
-  println("Bienvenue au Chill-Out !")
+  println("Bienvenue au Chill-Out ")
 
   while (true) {
     print("> ")

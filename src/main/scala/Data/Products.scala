@@ -20,6 +20,10 @@ object Products {
     ("Cailler", 2.00, CROISSANT)
   )
 
+  def contains(name : String): Boolean = {
+    productList.exists(_._1 == name)
+  }
+
   def getDrink(name : String = "Boxer"): Option[(String, Double, ProductType)] = {
     productList.find(t => t._1 == name && t._3 == BEER)
   }
