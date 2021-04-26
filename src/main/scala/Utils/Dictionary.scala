@@ -48,5 +48,6 @@ object Dictionary {
     "de" -> "de",
     "connaitre" -> "connaitre",
     "mon" -> "mon",
+    "appelle" -> "appeler"
   )
 }

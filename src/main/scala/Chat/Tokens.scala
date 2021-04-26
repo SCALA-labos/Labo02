@@ -41,5 +41,6 @@ object Tokens {
   val DE : Token = 22
   val CONNAITRE : Token = 23
   val MON : Token = 24
+  val APPELER : Token = 25
 
 }
