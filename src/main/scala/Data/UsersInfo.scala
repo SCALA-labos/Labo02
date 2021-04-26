@@ -23,9 +23,8 @@ object UsersInfo {
     */
   // TODO: step 2
   def purchase(user: String, amount: Double): Double = {
-    var balance = accounts.find(e => e._1 == user).getOrElse(throw new IllegalArgumentException)._2
-    balance -= amount
-    balance
+    accounts = accounts.map(e => if(e._1 == user) (e._1,e._2-amount) else e)
+    accounts.find(e => e._1 == user).getOrElse(throw new IllegalArgumentException)._2
   }
 
   def getCurrentBalance(): Double ={
