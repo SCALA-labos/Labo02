@@ -1,6 +1,7 @@
 package Chat
 
 import Chat.Tokens._
+import Data.Products
 import Tree._
 
 class UnexpectedTokenException(msg: String) extends Exception(msg){}
@@ -33,18 +34,34 @@ class Parser(tokenizer: Tokenizer) {
     if (curToken == BONJOUR) readToken()
     if (curToken == JE) {
       readToken()
-      eat(ETRE)
-      if (curToken == ASSOIFFE) { 
+      if(curToken == ETRE) {
         readToken()
-        Thirsty()
-      }
-      else if (curToken == AFFAME) {
+        if (curToken == ASSOIFFE) {
+          readToken()
+          Thirsty()
+        }
+        else if (curToken == AFFAME) {
+          readToken()
+          Hungry()
+        }
+        else if (curToken == PSEUDO) {
+          readToken()
+          Login(curValue)
+        }
+        else expected(ASSOIFFE, AFFAME, PSEUDO)
+      } else {//Politesse
+        parsePolite()
         readToken()
-        Hungry()
+        if(curToken == COMMANDER) {
+          parseComplexOrder()
+        } else if (curToken == SAVOIR) {
+          parseBalance()
+        } else expected(COMMANDER, SAVOIR)
       }
-      else expected(ASSOIFFE, AFFAME)
+    } else {
+      parseOrderInfoRequest()
     }
-    else expected(BONJOUR, JE)
+    else expected(JE, COMBIEN, QUE)
   }
 
   def parsePhrases() : ExprTree = {
@@ -54,7 +71,51 @@ class Parser(tokenizer: Tokenizer) {
     parseStateOfMind()
   }
 
+  def parseOrderInfoRequest(): ExprTree = {
+    readToken()
+    if (curToken == COMBIEN) {
+      readToken()
+      eat(COUTER)
+      Info(parseOrder())
+    }
+    else if(curToken == QUE) {
+      readToken()
+      eat(ETRE)
+      eat(LE)
+      eat(PRIX)
+      eat(DE)
+      Info(parseOrder())
+    }
+    else expected(COMBIEN, QUE)
+  }
+
+  def parseComplexOrder(): ExprTree = {
+    val leftOrder = parseOrder()
+    if(curToken == ET) {
+      And(leftOrder, parseComplexOrder())
+    } else if (curToken == OU) {
+      Or(leftOrder, parseComplexOrder())
+    } else {
+      leftOrder
+    }
+  }
+
+  def parseOrder(): Order = {
+    readToken()
+    val num = curValue.toInt
+    eat(NUM)
+    val productType = curToken
+    readToken()
+    if(curToken != ET && curToken != OU) {
+      Order(num, Product(productType, curValue))
+    }
+    else {
+      Order(num, Product(productType))
+    }
+  }
+
   def parseStateOfMind() : ExprTree = {
+    readToken()
     eat(JE)
     eat(ETRE)
     curToken match {
@@ -65,25 +126,26 @@ class Parser(tokenizer: Tokenizer) {
   }
 
   def parseLogin(): ExprTree = {
+    readToken()
     eat(JE)
     curToken match {
       case ETRE => readToken()
-      case ME => eat(APPELER)
+      case ME =>
+        readToken()
+        eat(APPELER)
     }
     if(curToken == PSEUDO){
       Login(curValue)
     }else expected(PSEUDO)
-
   }
 
   def parsePolite() {
-    eat(JE)
+    readToken()
     eat(VOULOIR)
   }
 
   def parseBalance() : ExprTree = {
-    parsePolite()
-    eat(CONNAITRE)
+    readToken()
     eat(MON)
     eat(SOLDE)
     Balance()

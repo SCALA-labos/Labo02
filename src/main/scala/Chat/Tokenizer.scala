@@ -20,9 +20,11 @@ class Tokenizer(input: String) {
     case "assoiffe" => ASSOIFFE
     case "affame" => AFFAME
     case "savoir" => SAVOIR
-    case "que" => QUESTION
-    case "combien" => QUESTION
+    case "connaitre" => SAVOIR
+    case "que" => QUE
+    case "combien" => QUE
     case "prix" => PRIX
+    case "couter" => COUTER
     case "solde" => SOLDE
       // Added
     case "me" => ME
@@ -30,7 +32,6 @@ class Tokenizer(input: String) {
     case "commander" => COMMANDER
     case "le" => LE
     case "de" => DE
-    case "connaitre" => CONNAITRE
     case "mon" => MON
     case "appeler" => APPELER
       //===

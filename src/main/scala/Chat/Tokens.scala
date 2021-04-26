@@ -31,7 +31,7 @@ object Tokens {
   val PRIX : Token = 15
   val SOLDE : Token = 16
   // Interrogation
-  val QUESTION : Token = 17
+  val QUE : Token = 17
 
   // Added
   val ME : Token = 18
@@ -39,8 +39,8 @@ object Tokens {
   val COMMANDER : Token = 20
   val LE : Token = 21
   val DE : Token = 22
-  val CONNAITRE : Token = 23
   val MON : Token = 24
   val APPELER : Token = 25
+  val COUTER : Token = 26
 
 }

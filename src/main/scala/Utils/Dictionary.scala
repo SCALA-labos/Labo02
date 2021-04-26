@@ -32,10 +32,10 @@ object Dictionary {
     "affamé" -> "affame",
     "affamée" -> "affame",
     "savoir" -> "savoir",
-    "connaitre" -> "savoir",
+    "connaitre" -> "connaitre",
     "prix" -> "prix",
-    "coutent" -> "prix",
-    "coute" -> "prix",
+    "coutent" -> "coute",
+    "coute" -> "coute",
     "solde" -> "solde",
     "credit" -> "solde",
     "que" -> "que",
@@ -46,7 +46,6 @@ object Dictionary {
     "commander" -> "commander",
     "le" -> "le",
     "de" -> "de",
-    "connaitre" -> "connaitre",
     "mon" -> "mon",
     "appelle" -> "appeler"
   )

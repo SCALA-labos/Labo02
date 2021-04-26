@@ -62,10 +62,10 @@ object Tree {
   case class Hungry() extends ExprTree
   // Added
   case class Login(name: String) extends ExprTree
-  case class Product(productType : ProductType, brand : String) extends ExprTree
+  case class Product(productType : ProductType, brand : String = "") extends ExprTree
   case class Order(n: Int, product: Product) extends ExprTree
-  case class And(orderL: Order, orderR: Order) extends ExprTree
-  case class Or(orderL: Order, orderR: Order) extends ExprTree
+  case class And(orderL: Order, orderR: ExprTree) extends ExprTree
+  case class Or(orderL: Order, orderR: ExprTree) extends ExprTree
 
   case class Info(complexOrder: ExprTree) extends ExprTree
   case class ComplexOrder(complexOrder: ExprTree) extends ExprTree
