@@ -2,7 +2,7 @@ package Chat
 
 import Chat.Tokens.{BIERE, CROISSANT, Token}
 import Data.Products.{getCroissant, getDrink}
-import Data.UsersInfo
+import Data.{Products, UsersInfo}
 
 // TODO - step 3
 object Tree {
@@ -19,8 +19,8 @@ object Tree {
       */
     def computePrice: Double = this match {
       case Order(n, product) => product.productType match {
-        case BIERE => n * getDrink(product.brand).get._2                  //TODO getorElse?
-        case CROISSANT => n * getCroissant(product.brand).get._2
+        case Products.BEER => n * getDrink(product.brand).get._2                  //TODO getorElse?
+        case Products.CROISSANT => n * getCroissant(product.brand).get._2
       }
       case And(orderL, orderR) => orderL.computePrice + orderR.computePrice
       case Or(orderL, orderR) => math.min(orderL.computePrice, orderR.computePrice)
