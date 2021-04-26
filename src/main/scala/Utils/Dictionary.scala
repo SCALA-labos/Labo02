@@ -13,8 +13,11 @@ object Dictionary {
     "yo" -> "bonjour",
     "je" -> "je",
     "j" -> "je",
+    "me" -> "me",
+    "m" -> "me",
     "suis" -> "etre",
     "veux" -> "vouloir",
+    "voudrais" -> "vouloir",
     "aimerais" -> "vouloir",
     "bière" -> "biere",
     "bières" -> "biere",
@@ -39,6 +42,9 @@ object Dictionary {
     "quel" -> "que",
     "quelle" -> "que",
     "qu" -> "que",
-    "combien" -> "combien"
+    "combien" -> "combien",
+    "commander" -> "commander",
+    "le" -> "le",
+    "de" -> "de",
   )
 }
