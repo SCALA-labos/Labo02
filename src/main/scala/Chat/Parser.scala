@@ -29,7 +29,7 @@ class Parser(tokenizer: Tokenizer) {
   }
 
   /** the root method of the parser: parses an entry phrase */
-  def parsePhrases() : ExprTree = {
+  def parsePhrasesOld() : ExprTree = {
     if (curToken == BONJOUR) readToken()
     if (curToken == JE) {
       readToken()
@@ -45,6 +45,24 @@ class Parser(tokenizer: Tokenizer) {
       else expected(ASSOIFFE, AFFAME)
     }
     else expected(BONJOUR, JE)
+  }
+
+  def parsePhrases() : ExprTree = {
+    if (curToken == BONJOUR) readToken()
+    parseBalance()
+  }
+
+  def parsePolite() {
+    eat(JE)
+    eat(VOULOIR)
+  }
+
+  def parseBalance() : ExprTree = {
+    parsePolite()
+    eat(CONNAITRE)
+    eat(MON)
+    eat(SOLDE)
+    Balance()
   }
 
   // Start the process by reading the first token.
