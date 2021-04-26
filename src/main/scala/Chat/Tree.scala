@@ -1,6 +1,7 @@
 package Chat
 
 import Data.Products.{BEER, CROISSANT, ProductType, getCroissant, getDrink}
+import Data.UsersInfo
 
 // TODO - step 3
 object Tree {
@@ -34,7 +35,9 @@ object Tree {
       case Thirsty() => "Eh bien, la chance est de votre côté, car nous offrons les meilleures bières de la région !"
       case Hungry() => "Pas de soucis, nous pouvons notamment vous offrir des croissants faits maisons !"
       //Added
-      case Login(name) => "Bonjour " + name.tail + " !"
+      case Login(name) => {
+        UsersInfo.login(name.tail)
+        "Bonjour %s !".format(UsersInfo.getCurrentUsername())}
       case Order(n, product) => "%d %s %s".format(n, product.productType, product.brand)
       case And(orderL, orderR) => "%s et %s".format(orderL.reply, orderR.reply)
       case Or(orderL, orderR) => orderL match {
@@ -42,10 +45,11 @@ object Tree {
         case _ => orderR.reply;
       }
       case Info(order) => "Cela coûte CHF %.1f".format(order.computePrice)
-      //TODO auth
-      case ComplexOrder(order) => "Voici donc %s! Cela coûte CHF %.1f et votre nouveau solde est de CHF %.1f."
-        .format( order.reply, order.computePrice ,0f)
-      case Balance() => "Le montant actuel de votre solde est de CHF %.1f".format(0f)
+      case ComplexOrder(order) => {
+        val price = order.computePrice
+        "Voici donc %s! Cela coûte CHF %.1f et votre nouveau solde est de CHF %.1f."
+        .format( order.reply, price, UsersInfo.purchase(UsersInfo.getCurrentUsername(), price))}
+      case Balance() => "Le montant actuel de votre solde est de CHF %.1f".format(UsersInfo.getCurrentBalance())
     }
 
   }
