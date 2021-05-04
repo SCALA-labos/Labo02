@@ -121,17 +121,6 @@ class Parser(tokenizer: Tokenizer) {
     }
   }
 
-  def parseStateOfMind() : ExprTree = {
-    readToken()
-    eat(JE)
-    eat(ETRE)
-    curToken match {
-      case AFFAME => Hungry()
-      case ASSOIFFE => Thirsty()
-      case _ => expected(AFFAME, ASSOIFFE)
-    }
-  }
-
   def parseLogin(): ExprTree = {
     readToken()
     eat(JE)
