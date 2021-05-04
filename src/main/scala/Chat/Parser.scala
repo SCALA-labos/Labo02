@@ -45,14 +45,14 @@ class Parser(tokenizer: Tokenizer) {
           Hungry()
         }
         else if (curToken == PSEUDO) {
-          readToken()
           Login(curValue)
         }
         else expected(ASSOIFFE, AFFAME, PSEUDO)
       } else {//Politesse
         parsePolite()
         if(curToken == COMMANDER) {
-          parseComplexOrder()
+          readToken()
+          parseTotalOrder()
         } else if (curToken == SAVOIR) {
           parseBalance()
         } else expected(COMMANDER, SAVOIR)
@@ -73,7 +73,7 @@ class Parser(tokenizer: Tokenizer) {
     if (curToken == COMBIEN) {
       readToken()
       eat(COUTER)
-      Info(parseOrder())
+      Info(parseComplexOrder())
     }
     else if(curToken == QUE) {
       readToken()
@@ -81,27 +81,35 @@ class Parser(tokenizer: Tokenizer) {
       eat(LE)
       eat(PRIX)
       eat(DE)
-      Info(parseOrder())
+      Info(parseComplexOrder())
     }
     else expected(COMBIEN, QUE)
+  }
+
+  def parseTotalOrder(): ExprTree = {
+    TotalOrder(parseComplexOrder())
   }
 
   def parseComplexOrder(): ExprTree = {
     val leftOrder = parseOrder()
     if(curToken == ET) {
+      readToken()
       And(leftOrder, parseComplexOrder())
     } else if (curToken == OU) {
+      readToken()
       Or(leftOrder, parseComplexOrder())
     } else {
-      ComplexOrder(leftOrder)
+      leftOrder
     }
   }
 
   def parseOrder(): Order = {
-    readToken()
     val num = curValue.toInt
     eat(NUM)
-    val productType : Token = curToken
+    val productType : Token = curToken match {
+      case CROISSANT => Products.CROISSANT
+      case BIERE => Products.BEER
+    }
     readToken()
     if(curToken == MARQUE) {
       val brand = curValue
@@ -110,17 +118,6 @@ class Parser(tokenizer: Tokenizer) {
     }
     else {
       Order(num, Product(productType))
-    }
-  }
-
-  def parseStateOfMind() : ExprTree = {
-    readToken()
-    eat(JE)
-    eat(ETRE)
-    curToken match {
-      case AFFAME => Hungry()
-      case ASSOIFFE => Thirsty()
-      case _ => expected(AFFAME, ASSOIFFE)
     }
   }
 

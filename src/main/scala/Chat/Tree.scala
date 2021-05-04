@@ -2,7 +2,7 @@ package Chat
 
 import Chat.Tokens.{BIERE, CROISSANT, Token}
 import Data.Products.{getCroissant, getDrink}
-import Data.UsersInfo
+import Data.{Products, UsersInfo}
 
 // TODO - step 3
 object Tree {
@@ -19,8 +19,12 @@ object Tree {
       */
     def computePrice: Double = this match {
       case Order(n, product) => product.productType match {
-        case BIERE => n * getDrink(product.brand).get._2                  //TODO getorElse?
-        case CROISSANT => n * getCroissant(product.brand).get._2
+        case Products.BEER =>
+          if(product.brand == null) n*getDrink().get._2
+          else n * getDrink(product.brand).get._2
+        case Products.CROISSANT =>
+          if(product.brand == null) n*getCroissant().get._2
+          else n * getCroissant(product.brand).get._2
       }
       case And(orderL, orderR) => orderL.computePrice + orderR.computePrice
       case Or(orderL, orderR) => math.min(orderL.computePrice, orderR.computePrice)
@@ -39,18 +43,28 @@ object Tree {
       case Login(name) => {
         UsersInfo.login(name.tail)
         "Bonjour %s !".format(UsersInfo.getCurrentUsername())}
-      case Order(n, product) => "%d %s %s".format(n, product.productType, product.brand)
+      case Order(n, product) => "%d %s".format(n, product.brand)
       case And(orderL, orderR) => "%s et %s".format(orderL.reply, orderR.reply)
       case Or(orderL, orderR) => orderL match {
         case _ if orderL.computePrice <= orderR.computePrice => orderL.reply
         case _ => orderR.reply;
       }
       case Info(order) => "Cela coûte CHF %.1f".format(order.computePrice)
-      case ComplexOrder(order) => {
-        val price = order.computePrice
-        "Voici donc %s! Cela coûte CHF %.1f et votre nouveau solde est de CHF %.1f."
-        .format( order.reply, price, UsersInfo.purchase(UsersInfo.getCurrentUsername(), price))}
-      case Balance() => "Le montant actuel de votre solde est de CHF %.1f".format(UsersInfo.getCurrentBalance())
+      case TotalOrder(order) => {
+        val username = UsersInfo.getCurrentUsername()
+        if(UsersInfo.getCurrentUsername() == null) {
+          "Veuillez d'abord vous identifier"
+        } else {
+          val price = order.computePrice
+          "Voici donc %s! Cela coûte CHF %.1f et votre nouveau solde est de CHF %.1f."
+            .format( order.reply, price, UsersInfo.purchase(UsersInfo.getCurrentUsername(), price))}
+        }
+      case Balance() =>
+        if(UsersInfo.getCurrentUsername() == null) {
+          "Veuillez d'abord vous identifier"
+        } else {
+          "Le montant actuel de votre solde est de CHF %.1f".format(UsersInfo.getCurrentBalance())
+        }
       case _ => ""
     }
 
@@ -64,12 +78,12 @@ object Tree {
   case class Hungry() extends ExprTree
   // Added
   case class Login(name: String) extends ExprTree
-  case class Product(productType : Token, brand : String = "") extends ExprTree
+  case class Product(productType : Token, brand : String = null) extends ExprTree
   case class Order(n: Int, product: Product) extends ExprTree
   case class And(orderL: Order, orderR: ExprTree) extends ExprTree
   case class Or(orderL: Order, orderR: ExprTree) extends ExprTree
 
   case class Info(complexOrder: ExprTree) extends ExprTree
-  case class ComplexOrder(complexOrder: ExprTree) extends ExprTree
+  case class TotalOrder(complexOrder: ExprTree) extends ExprTree
   case class Balance() extends ExprTree
 }
